@@ -1,0 +1,106 @@
+#include <SoftwareSerial.h>
+#include <DHT.h>
+
+#define DHTPIN 2  // Define the pin to which the DHT11 sensor is connected
+int RESETPIN =3;
+#define DHTTYPE DHT11  // Define the type of DHT sensor
+#define SIM900_PWR_CTRL 9 // Control pin for SIM900 power
+
+#define DELAY_BEFORE_TURN_ON 5000 // Delay before turning on SIM900 in milliseconds
+#define DELAY_BETWEEN_REPEATS 3600000 // Delay between repeats in milliseconds
+
+DHT dht(DHTPIN, DHTTYPE);
+SoftwareSerial SIM900(7, 8); // RX, TX
+int count = 1;
+
+void setup() {
+  digitalWrite(RESETPIN, HIGH);
+  delay(200); 
+  pinMode(RESETPIN, OUTPUT);  
+  
+  Serial.begin(9600);
+  SIM900.begin(9600);
+  dht.begin();
+
+  pinMode(SIM900_PWR_CTRL, OUTPUT);
+}
+
+
+
+void sendCommand(const char* cmd) {
+  SIM900.println(cmd);
+  delay(1000);
+  while (SIM900.available()) {
+    Serial.write(c);
+  }
+  Serial.println();
+}
+
+void powerUpSIM900() {
+  digitalWrite(SIM900_PWR_CTRL, HIGH);
+  delay(1000);
+  digitalWrite(SIM900_PWR_CTRL, LOW);
+  delay(5000);
+}
+
+void powerDownSIM900() {
+  digitalWrite(SIM900_PWR_CTRL, LOW);
+  delay(1000);
+  digitalWrite(SIM900_PWR_CTRL, HIGH);
+  delay(2000);
+  digitalWrite(SIM900_PWR_CTRL, LOW);
+  delay(3000);
+}
+
+bool sendPostRequest(float temperature, float humidity) {
+
+  sendCommand("AT");
+  delay(2000);
+  sendCommand("AT+CIPSHUT");
+  delay(2000);
+  sendCommand("AT+SAPBR=0,1");
+  delay(2000);
+  sendCommand("AT+SAPBR=3,1,\"Contype\",\"GPRS\"");
+  delay(2000);
+  sendCommand("AT+SAPBR=1,1");
+  delay(2000);
+  sendCommand("AT+CGMR");
+  delay(2000);
+  sendCommand("AT+HTTPINIT");
+  delay(2000);
+  sendCommand("AT+HTTPPARA=\"CID\",1");
+  delay(2000);
+  sendCommand("AT+HTTPACTION=1");
+  delay(5000);
+ 
+}
+
+void loop() {
+  // Read temperature and humidity
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+
+  if (!isnan(temperature) && !isnan(humidity)) {
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.print(" °C, Humidity: ");
+    Serial.print(humidity);
+    Serial.println(" %");
+
+    // Power up SIM900
+    powerUpSIM900();
+    // Wait for SIM900 to stabilize before making the request
+    delay(DELAY_BEFORE_TURN_ON);
+    // Send HTTP request 
+    sendPostRequest(temperature, humidity);
+
+    powerDownSIM900();
+    Serial.println("Waiting  before repeating the process.");
+    
+    delay(DELAY_BETWEEN_REPEATS-(count*60000));
+    count = count + 1;
+    digitalWrite(RESETPIN, LOW);
+  } else {
+    Serial.println("Error reading DHT11 sensor.");
+  }
+}
