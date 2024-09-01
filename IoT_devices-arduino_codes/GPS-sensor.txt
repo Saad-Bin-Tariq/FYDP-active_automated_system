@@ -1,0 +1,54 @@
+#include <ArduinoJson.h>
+#include <TinyGPS++.h>
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <DHT.h>
+#include <SoftwareSerial.h>
+
+const int dhtPin = 4; // DHT11 data pin connected to ESP8266 D5
+const int sensorType = DHT11; // Sensor type DHT11
+
+TinyGPSPlus gps;
+SoftwareSerial gpsSerial(14, 12); // RX, TX for GPS module
+char buffer[100];
+DHT dht(dhtPin, sensorType);
+
+void printData() {
+    DynamicJsonDocument jsonDoc(200); // JSON document size
+
+    // Reading temperature
+    float temperature = dht.readTemperature();
+
+    // GPS data
+    if (gps.location.isUpdated()) {
+        double lat = gps.location.lat();
+        double lng = gps.location.lng();
+
+        jsonDoc["Temperature"] = temperature;
+        JsonObject gpsObj = jsonDoc.createNestedObject("GPS");
+        gpsObj["Latitude"] = lat;
+        gpsObj["Longitude"] = lng;
+
+        String output;
+        serializeJson(jsonDoc, output);
+        Serial.println(output);
+    }
+}
+
+void setup() {
+    Serial.begin(9600);
+    Serial1.begin(9600); // Serial1 output for GPS
+
+    gpsSerial.begin(9600); // GPS module
+    dht.begin();
+}
+
+void loop() {
+    while (gpsSerial.available() > 0) {
+        if (gps.encode(gpsSerial.read())) {
+            delay(1000); // Delay for the GPS to get a good fix
+            printData();
+            delay(2000);
+        }
+    }
+}
