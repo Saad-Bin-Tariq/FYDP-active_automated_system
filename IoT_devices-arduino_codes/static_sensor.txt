@@ -1,0 +1,69 @@
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <DHT.h>
+#define DELAY_BETWEEN_REPEATS 3600000 
+
+const int dhtPin = 4; // DHT11 data pin connected to ESP8266 D5
+const int sensorType = DHT11; // Sensor type DHT11
+
+// Replace with your WiFi credentials
+const char* ssid = "NodeMCU";
+const char* password = "Node007";
+
+
+DHT dht(dhtPin, sensorType);
+WiFiClient client;
+int count = 1;
+
+void setup() {
+  Serial.begin(9600);
+
+  dht.begin();
+
+  // Connect to WiFi network
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1500);
+    Serial.println("Connecting to WiFi..");
+  }
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  // Read temperature and humidity
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.print("°C\tHumidity: ");
+  Serial.print(humidity);
+  Serial.println("%");
+ 
+  // Send POST request
+  if (client.connect(serverHost, serverPort)) {
+    client.print(String("POST ") + serverPath + " HTTP/1.1\r\n");
+    client.print(String("Host: ") + serverHost + "\r\n");
+    client.println("Content-Type: application/json");
+    client.print("Content-Length: ");
+    client.println(jsonData.length());
+    client.println();
+    client.println(jsonData);
+    
+    // Read response
+    while (client.connected() && !client.available()) {
+      delay(1);
+    }
+    while (client.available()) {
+      Serial.write(client.read());
+    }
+    client.stop();
+  } else {
+    Serial.println("Connection failed");
+  }
+
+  delay(DELAY_BETWEEN_REPEATS-(count*60000));// Delay between readings
+}
+
+
