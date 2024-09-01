@@ -1,0 +1,312 @@
+
+  
+.acards {
+    /* display: grid; */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 4rem 5vw;
+    padding: 0;
+    list-style-type: none;
+    /* background-color: #fef8f8; */
+    --surface-color: #fff;
+    --curve: 40;
+    font-family: 'Noto Sans JP', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  .card {
+    position: relative;
+    display: block;
+    height: 100%;  
+    border-radius: calc(var(--curve) * 1px);
+    overflow: hidden;
+    text-decoration: none;
+    margin: 20px;
+  }
+  
+  .card__image {
+    width: 100%;
+    height: 230px;
+    opacity: 0.5;
+    object-fit: cover; /* Maintains aspect ratio while covering the entire area */
+}
+
+  
+  .card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;      
+    border-radius: calc(var(--curve) * 1px);    
+    background-color: var(--surface-color);      
+    transform: translateY(100%);
+    transition: .2s ease-in-out;
+  }
+  
+  .card:hover .card__overlay {
+    transform: translateY(0);
+  }
+  
+  .card__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    padding: 2em;
+    border-radius: calc(var(--curve) * 1px) 0 0 0;    
+    background-color: var(--surface-color);
+    transform: translateY(-100%);
+    transition: .2s ease-in-out;
+  }
+  
+  .card__arc {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    bottom: 100%;
+    right: 0;      
+    z-index: 1;
+  }
+  
+  .card__arc path {
+    fill: var(--surface-color);
+    /* d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z"); */
+  }       
+  
+  .card:hover .card__header {
+    transform: translateY(0);
+  }
+  
+  .card__thumb {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;      
+    border-radius: 50%;      
+  }
+  
+  .card__title {
+    font-size: 1.2em;
+    margin: 0 0 .3em;
+    color: #0f0d05;
+  }
+  .try a{
+    margin-left: 10px;
+  }
+  .card__tagline {
+    display: block;
+    margin: 1em 0;
+    /* font-family: "MockFlowFont";   */
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1em; 
+    color: #bebebe;  
+  }
+  
+  .card__status {
+    font-size: .9em;
+    color: #b3b3b3;
+    margin-right: 10px;
+  }
+  
+  .card__description {
+    padding: 0 2em 2em;
+    margin: 0;
+    
+    color: #5a5a5a;
+    /* font-family: "MockFlowFont";    */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  } 
+  .slideshow {
+    position: relative;
+    width: 500px;
+    height: 500px;
+  }
+  .slideshow img{
+    border-radius: 20px;
+  }
+  .slide {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    border-radius: 15px;
+  }
+  
+  .slide.active {
+    opacity: 1;
+  }
+  input {
+    appearance: none;
+    border-radius: 0;
+}
+.card {
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 425px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgba(153, 153, 153, .25);
+    padding: 0.75rem;
+}
+.card-image {
+    border-radius: 8px;
+    overflow: hidden;
+    padding-bottom: 65%;
+    background-image: url('https://assets.codepen.io/285131/coffee_1.jpg');
+    background-repeat: no-repeat;
+    background-size: 150%;
+    background-position: 0 5%;
+    position: relative;
+}
+.card-heading {
+    position: absolute;
+    left: 10%;
+    top: 15%;
+    right: 10%;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #735400;
+    line-height: 1.222;
+}
+.card-heading small {
+    display: block;
+    font-size: 0.75em;
+    font-weight: 400;
+    margin-top: 0.25em;
+}
+.card-form {
+    padding: 2rem 1rem 0;
+}
+input {
+    appearance: none;
+    border-radius: 0;
+  }
+  
+  .card {
+    margin: .2rem auto;
+    
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 425px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 0 rgba(153, 153, 153, .25);
+    padding: 0.75rem;
+  }
+  
+  .card-image {
+    border-radius: 8px;
+    overflow: hidden;
+    padding-bottom: 65%;
+    background-image: url('https://assets.codepen.io/285131/coffee_1.jpg');
+    background-repeat: no-repeat;
+    background-size: 150%;
+    background-position: 0 5%;
+    position: relative;
+  }
+  
+  .card-heading {
+    position: absolute;
+    left: 10%;
+    top: 15%;
+    right: 10%;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #735400;
+    line-height: 1.222;
+  }
+  
+  .card-heading small {
+    display: block;
+    font-size: 0.75em;
+    font-weight: 400;
+    margin-top: 0.25em;
+  }
+  
+  .card-form {
+    padding: 0rem 1rem 1rem;
+  }
+  
+  .input {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+    padding-top: .7rem;
+  }
+  
+  .input + .input {
+    margin-top: .7rem;
+  }
+  
+  .input-label {
+    color: #8597a3;
+    position: absolute;
+    top: .6rem;
+    transition: 0.25s ease;
+  }
+  
+  .input-field {
+    border: 0;
+    z-index: 1;
+    background-color: transparent;
+    border-bottom: 2px solid #eee;
+    font: inherit;
+    font-size: 1.125rem;
+    padding: 0.25rem 0;
+  }
+  
+  .input-field:focus,
+  .input-field:valid {
+    outline: 0;
+    border-bottom-color: #d3ba58;
+  }
+  
+  .input-field:focus + .input-label,
+  .input-field:valid + .input-label {
+    color: #d3a858;
+    transform: translateY(-1.5rem);
+  }
+  
+  .action {
+    margin-top: 1rem;
+  }
+  
+  .action-button {
+    font: inherit;
+    font-size: 1rem;
+    padding: .6em;
+    width: 100%;
+    font-weight: 500;
+    background-color: #d39a58;
+    border-radius: 9px;
+    color: #fff;
+    border: 0;
+  }
+  
+  .action-button:focus {
+    outline: 0;
+  }
+  
+  .card-info {
+    padding: 1rem 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #8597a3;
+  }
+  
+  .card-info a {
+    display: block;
+    color: #6658d3;
+    text-decoration: none;
+  }
+  
+  .input-field::placeholder {
+    color: transparent;
+  }

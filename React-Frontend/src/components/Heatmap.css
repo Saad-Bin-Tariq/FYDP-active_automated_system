@@ -1,0 +1,89 @@
+body{
+    background-image: url('https://aiaware.com.pk/wp-content/uploads/2024/02/Contour_bg.png');
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+    background-size: auto;
+  }
+      #container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+  }
+  
+  #inputs {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  #map {
+    flex: 2;
+    height: 650px;
+    width: 100%;
+  }
+  
+  .inputdiv {
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  #temperature_type {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  button {
+    font: inherit;
+    font-size: 1rem;
+    padding: .6em;
+    width: 100%;
+    font-weight: 500;
+    background-color: #d39a58;
+    border-radius: 9px;
+    color: #fff;
+    border: 0;
+  }
+  #container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+  
+      /* Div 1 */
+      #one {
+        background-color:  rgba(181, 179, 179, 0.05);
+        flex: 0 0 20%; /* Set width to 30% */
+        padding: 10px; /* Add padding */
+        box-sizing: border-box;/* Include padding in width calculation */
+      }
+  
+      /* Div 2 */
+      #two {
+        flex: 0 0 80%; /* Set width to 70% */
+        padding: 10px; /* Add padding */
+        box-sizing: border-box;/* Include padding in width calculation */
+      }
+      
+      #image-container {
+      overflow: hidden;
+      margin-right: 10px;
+      width: 100%;
+      height: calc(100% - 140px); /* Subtract 100px from the top and 100px from the bottom */
+      }
+  
+      #image {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: -140px; /* Move the image up by 100px to crop from the top */
+      }
+  
+  
+      /* Media query for mobile view */
+      @media screen and (max-width: 768px) {
+        /* Stack divs on top of each other */
+        #container {
+          flex-direction: column;
+        }
+        #one, #two {
+          flex: auto; /* Take up full width */
+          min-width: auto; /* Reset minimum width */
+        }
+      }
