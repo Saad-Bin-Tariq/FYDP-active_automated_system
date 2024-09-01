@@ -117,9 +117,6 @@ The **Active Automated Sensing System for Urban Turbulent and Radiant Heat** is 
 4. **Member:** 
    - **Name:** Tahira Siddique
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
